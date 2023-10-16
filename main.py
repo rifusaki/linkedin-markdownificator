@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from dotenv import load_dotenv
+import time
 import pathlib
 import os
 
@@ -23,5 +24,11 @@ if "feed" not in driver.title.lower():
 elif "feed" in driver.title.lower():
     print("session cookie preserved")
 
-driver.implicitly_wait(5)
+print("feed loaded")
+driver.implicitly_wait(15)
+
+driver.find_element(By.XPATH, "//a[contains(@href, '/in/')]").click()
+print("element found")
+time.sleep(15)
+
 driver.quit()
