@@ -1,3 +1,4 @@
 /.env
 selenium/
-/profile_main.html
+*.html
+/__pycache__
