@@ -3,7 +3,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from dotenv import load_dotenv
-import time
 import pathlib
 import os
 
@@ -30,7 +29,13 @@ elif "feed" in driver.title.lower():
     print("session cookie preserved")
     
 driver.implicitly_wait(15)
+
+# Finds the first '/in/' href which correspond to profiles
+# This should be the one of the logged account if a clean feed page was loaded
 driver.find_element(By.XPATH, "//a[contains(@href, '/in/')]").click()
-print("profile loaded")
+
+# Save main profile page to HTML file for markdownification
+with open('profile_main.html', 'w', encoding="utf-8") as f:
+    f.write(driver.page_source)
 
 driver.quit()
