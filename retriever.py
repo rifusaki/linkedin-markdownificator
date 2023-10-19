@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 import pathlib
+import time
 
 
 def retrieve_linkedin_profile(mail, password):
@@ -10,6 +11,7 @@ def retrieve_linkedin_profile(mail, password):
     # It's also possible to manage extensions, settings... per user basis
     options = Options()
     options.add_argument(f"user-data-dir={pathlib.Path().absolute()}\\selenium")
+    options.add_argument("--window-size=1920,1080")
     driver = webdriver.Chrome(options=options)
 
     driver.get("https://linkedin.com/")
@@ -30,6 +32,7 @@ def retrieve_linkedin_profile(mail, password):
     # Finds the first '/in/' href which correspond to profiles
     # This should be the one of the logged account if a clean feed page was loaded
     driver.find_element(By.XPATH, "//a[contains(@href, '/in/')]").click()
+    time.sleep(20)
 
     # Save main profile page to HTML file for markdownification
     with open('profile_main.html', 'w', encoding="utf-8") as f:
