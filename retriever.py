@@ -1,11 +1,11 @@
 from lib import *
 from driver import *
 
-def retrieve_linkedin_profile(mail, password, omit = []):
+def login_to_profile(mail, password):
     driver = WebDriver.get_instance()
 
     driver.get("https://linkedin.com/")
-    driver.implicitly_wait(5)
+    driver.implicitly_wait(10)
 
     # LinkedIn when logged in redirects to feed. If not logged, login elements should be available in main page
     if "feed" not in driver.title.lower():
@@ -13,15 +13,15 @@ def retrieve_linkedin_profile(mail, password, omit = []):
         driver.find_element(by=By.ID, value="session_key").send_keys(mail)
         driver.find_element(by=By.ID, value="session_password").send_keys(password, Keys.ENTER)
         driver.implicitly_wait(30) # Increase time if needed for captcha
-        
-    driver.implicitly_wait(15)
 
     # Finds the first '/in/' href which correspond to profiles
     # This should be the one of the logged account if a clean feed page was loaded
     driver.find_element(By.XPATH, "//a[contains(@href, '/in/')]").click()
-    time.sleep(5)
-    profile_url = driver.current_url
 
+def retrieve_linkedin_profile(omit = []):
+    driver = WebDriver.get_instance()
+
+    profile_url = driver.current_url
     # Save main profile and detail pages to HTML files for markdownification
     Path("html_profile/").mkdir(parents=True, exist_ok=True)
 
