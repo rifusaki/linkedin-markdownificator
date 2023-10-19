@@ -1,12 +1,8 @@
 from lib import *
+from driver import *
 
 def retrieve_linkedin_profile(mail, password, omit = []):
-    # Make (or use) a '/selenium' folder user profile to preserve session cookies
-    # It's also possible to manage extensions, settings... per user basis
-    options = Options()
-    options.add_argument(f"user-data-dir={Path().absolute()}\\selenium")
-    options.add_argument("--window-size=1920,1080")
-    driver = webdriver.Chrome(options=options)
+    driver = WebDriver.get_instance()
 
     driver.get("https://linkedin.com/")
     driver.implicitly_wait(5)
