@@ -1,9 +1,4 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
-from pathlib import Path
-import time
+from lib import *
 
 def retrieve_linkedin_profile(mail, password, omit = []):
     # Make (or use) a '/selenium' folder user profile to preserve session cookies

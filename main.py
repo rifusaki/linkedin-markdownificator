@@ -1,5 +1,3 @@
-from dotenv import load_dotenv
-import os
 from retriever import *
 
 # Do not forget to modify .env
