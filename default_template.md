@@ -18,4 +18,6 @@
 
 [[skills]]
 
+[[honors]]
+
 [[languages]]

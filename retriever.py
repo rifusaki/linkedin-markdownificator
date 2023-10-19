@@ -2,15 +2,14 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
-import pathlib
+from pathlib import Path
 import time
 
-
-def retrieve_linkedin_profile(mail, password):
+def retrieve_linkedin_profile(mail, password, omit = []):
     # Make (or use) a '/selenium' folder user profile to preserve session cookies
     # It's also possible to manage extensions, settings... per user basis
     options = Options()
-    options.add_argument(f"user-data-dir={pathlib.Path().absolute()}\\selenium")
+    options.add_argument(f"user-data-dir={Path().absolute()}\\selenium")
     options.add_argument("--window-size=1920,1080")
     driver = webdriver.Chrome(options=options)
 
@@ -23,9 +22,6 @@ def retrieve_linkedin_profile(mail, password):
         driver.find_element(by=By.ID, value="session_key").send_keys(mail)
         driver.find_element(by=By.ID, value="session_password").send_keys(password, Keys.ENTER)
         driver.implicitly_wait(30) # Increase time if needed for captcha
-
-    elif "feed" in driver.title.lower():
-        print("session cookie preserved")
         
     driver.implicitly_wait(15)
 
@@ -39,46 +35,14 @@ def retrieve_linkedin_profile(mail, password):
     with open('profile_main.html', 'w', encoding="utf-8") as f:
         f.write(driver.page_source)
     
-    # Save complete experience page
-    driver.get(profile_url+"details/experience/")
-    time.sleep(5)
-    with open('experience.html', 'w', encoding="utf-8") as f:
-        f.write(driver.page_source)
-
-    # Save education
-    driver.get(profile_url+"details/education/")
-    time.sleep(5)
-    with open('education.html', 'w', encoding="utf-8") as f:
-        f.write(driver.page_source)
-
-    # Save licenses and certifications
-    driver.get(profile_url+"details/certifications/")
-    time.sleep(5)
-    with open('education.html', 'w', encoding="utf-8") as f:
-        f.write(driver.page_source)
-
-    # Save projects
-    driver.get(profile_url+"details/projects/")
-    time.sleep(5)
-    with open('projects.html', 'w', encoding="utf-8") as f:
-        f.write(driver.page_source)
-
-    # Save skills
-    driver.get(profile_url+"details/skills/")
-    time.sleep(5)
-    with open('skills.html', 'w', encoding="utf-8") as f:
-        f.write(driver.page_source)
-
-    # Save honors and awards
-    driver.get(profile_url+"details/honors/")
-    time.sleep(5)
-    with open('honors.html', 'w', encoding="utf-8") as f:
-        f.write(driver.page_source)
-
-    # Save languages
-    driver.get(profile_url+"details/languages/")
-    time.sleep(5)
-    with open('languages.html', 'w', encoding="utf-8") as f:
-        f.write(driver.page_source)
+    to_retrieve = [i for i in ["experience", "education", "certifications", "projects",
+                   "skills", "honors", "languages"] if i not in omit]
+    
+    Path("html_profile/").mkdir(parents=True, exist_ok=True)
+    for element in to_retrieve:
+        driver.get(profile_url+f"details/{element}/")
+        time.sleep(5)
+        with open(f'html_profile/{element}.html', 'w', encoding="utf-8") as f:
+            f.write(driver.page_source)
 
     driver.quit()
