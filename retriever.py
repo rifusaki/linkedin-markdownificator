@@ -22,7 +22,9 @@ def login_to_profile(mail, password):
 
 
 # The following dictionary contains the pages to be retrieved along with the XPATH expression to select relevant information
-retrieval = {"main": ("//*[@class='text-heading-xlarge inline t-24 v-align-middle break-words']",), 
+retrieval = {"main": ("//*[@class='text-heading-xlarge inline t-24 v-align-middle break-words']",
+                      "//div[@class='text-body-medium break-words']",
+                      "//div[@class='pv-shared-text-with-see-more full-width t-14 t-normal t-black display-flex align-items-center']"), 
              "experience": ("",), 
              "education": ("",), 
              "certifications": ("",), 
