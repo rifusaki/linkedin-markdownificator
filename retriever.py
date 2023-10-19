@@ -32,10 +32,53 @@ def retrieve_linkedin_profile(mail, password):
     # Finds the first '/in/' href which correspond to profiles
     # This should be the one of the logged account if a clean feed page was loaded
     driver.find_element(By.XPATH, "//a[contains(@href, '/in/')]").click()
-    time.sleep(20)
+    time.sleep(5)
+    profile_url = driver.current_url
 
     # Save main profile page to HTML file for markdownification
     with open('profile_main.html', 'w', encoding="utf-8") as f:
+        f.write(driver.page_source)
+    
+    # Save complete experience page
+    driver.get(profile_url+"details/experience/")
+    time.sleep(5)
+    with open('experience.html', 'w', encoding="utf-8") as f:
+        f.write(driver.page_source)
+
+    # Save education
+    driver.get(profile_url+"details/education/")
+    time.sleep(5)
+    with open('education.html', 'w', encoding="utf-8") as f:
+        f.write(driver.page_source)
+
+    # Save licenses and certifications
+    driver.get(profile_url+"details/certifications/")
+    time.sleep(5)
+    with open('education.html', 'w', encoding="utf-8") as f:
+        f.write(driver.page_source)
+
+    # Save projects
+    driver.get(profile_url+"details/projects/")
+    time.sleep(5)
+    with open('projects.html', 'w', encoding="utf-8") as f:
+        f.write(driver.page_source)
+
+    # Save skills
+    driver.get(profile_url+"details/skills/")
+    time.sleep(5)
+    with open('skills.html', 'w', encoding="utf-8") as f:
+        f.write(driver.page_source)
+
+    # Save honors and awards
+    driver.get(profile_url+"details/honors/")
+    time.sleep(5)
+    with open('honors.html', 'w', encoding="utf-8") as f:
+        f.write(driver.page_source)
+
+    # Save languages
+    driver.get(profile_url+"details/languages/")
+    time.sleep(5)
+    with open('languages.html', 'w', encoding="utf-8") as f:
         f.write(driver.page_source)
 
     driver.quit()
