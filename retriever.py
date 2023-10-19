@@ -1,9 +1,9 @@
 from lib import *
 from driver import *
 
+
 def login_to_profile(mail, password):
     driver = WebDriver.get_instance()
-
     driver.get("https://linkedin.com/")
     driver.implicitly_wait(10)
 
@@ -18,23 +18,32 @@ def login_to_profile(mail, password):
     # This should be the one of the logged account if a clean feed page was loaded
     driver.find_element(By.XPATH, "//a[contains(@href, '/in/')]").click()
 
-def retrieve_linkedin_profile(omit = []):
+    return driver.current_url
+
+
+# The following dictionary contains the pages to be retrieved along with the XPATH expression to select relevant information
+retrieval = {"main": ("//*[@class='text-heading-xlarge inline t-24 v-align-middle break-words']",), 
+             "experience": ("",), 
+             "education": ("",), 
+             "certifications": ("",), 
+             "projects": ("",),
+             "skills": ("",), 
+             "honors": ("",), 
+             "languages": ("",)}
+
+
+def markdownificate_profile(profile_url, omit = []):
     driver = WebDriver.get_instance()
-
-    profile_url = driver.current_url
-    # Save main profile and detail pages to HTML files for markdownification
-    Path("html_profile/").mkdir(parents=True, exist_ok=True)
-
-    with open('html_profile/profile_main.html', 'w', encoding="utf-8") as f:
-        f.write(driver.page_source)
     
-    to_retrieve = [i for i in ["experience", "education", "certifications", "projects",
-                   "skills", "honors", "languages"] if i not in omit]
-    
+    to_retrieve = [i for i in list(retrieval.keys()) if i not in omit]
     for element in to_retrieve:
         driver.get(profile_url+f"details/{element}/")
-        time.sleep(5)
-        with open(f'html_profile/{element}.html', 'w', encoding="utf-8") as f:
-            f.write(driver.page_source)
+        time.sleep(3)
+        retrieve_information(element)
 
-    driver.quit()
+def retrieve_information(key):
+    driver = WebDriver.get_instance()
+
+    for expression in retrieval[key]:
+        if expression != "":
+            print(driver.find_element(By.XPATH, expression).text)

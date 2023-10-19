@@ -3,6 +3,8 @@ from retriever import *
 # Do not forget to modify .env
 load_dotenv()
 
-login_to_profile(os.getenv("MAIL"), os.getenv("PASSWORD"))
+profile_url = login_to_profile(os.getenv("MAIL"), os.getenv("PASSWORD"))
 
-retrieve_linkedin_profile(["honors"])
+markdownificate_profile(profile_url, ["honors"])
+
+WebDriver.get_instance().quit()
