@@ -31,14 +31,15 @@ def retrieve_linkedin_profile(mail, password, omit = []):
     time.sleep(5)
     profile_url = driver.current_url
 
-    # Save main profile page to HTML file for markdownification
-    with open('profile_main.html', 'w', encoding="utf-8") as f:
+    # Save main profile and detail pages to HTML files for markdownification
+    Path("html_profile/").mkdir(parents=True, exist_ok=True)
+
+    with open('html_profile/profile_main.html', 'w', encoding="utf-8") as f:
         f.write(driver.page_source)
     
     to_retrieve = [i for i in ["experience", "education", "certifications", "projects",
                    "skills", "honors", "languages"] if i not in omit]
     
-    Path("html_profile/").mkdir(parents=True, exist_ok=True)
     for element in to_retrieve:
         driver.get(profile_url+f"details/{element}/")
         time.sleep(5)
