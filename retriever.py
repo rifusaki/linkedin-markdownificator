@@ -22,38 +22,40 @@ def login_to_profile(mail, password):
 
 
 # The following dictionary contains the pages to be retrieved along with the XPATH expression to select relevant information
-retrieval = {"main": ("//*[@class='text-heading-xlarge inline t-24 v-align-middle break-words']",
-                      "//div[@class='text-body-medium break-words']",
-                      "//div[@data-generated-suggestion-target='urn:li:fsu_profileActionDelegate:-1983837190']",
-                      "//div[@class='pvs-media-content__preview']",
-                      "//div[@class='pvs-media-content__image-wrapper']"), 
-             "experience": ("",), 
-             "education": ("",), 
-             "certifications": ("",), 
-             "projects": ("",),
-             "skills": ("",), 
-             "honors": ("",), 
-             "languages": ("",)}
+retrieval = {"main": (("h1", {"class_" : "text-heading-xlarge inline t-24 v-align-middle break-words"}),
+                      ("div", {"class_" : "text-body-medium break-words"}),
+                      ("span", {"class_" : "text-body-small inline t-black--light break-words"})),
+             "featured" : (("div", {"class_" : "artdeco-card full-width overflow-hidden display-flex flex-column"}),), 
+             "experience": (("div", {"data-view-name" : "profile-component-entity"}),), 
+             "education": (("div", {"data-view-name" : "profile-component-entity"}),), 
+             "certifications": (("div", {"data-view-name" : "profile-component-entity"}),), 
+             "projects": (("div", {"data-view-name" : "profile-component-entity"}),),
+             "skills": (("div", {"data-view-name" : "profile-component-entity"}),), 
+             "honors": ("",), # Pending
+             "languages": (("div", {"data-view-name" : "profile-component-entity"}),)}
 
 
 def markdownificate_profile(profile_url, omit = []):
     driver = WebDriver.get_instance()
-    profile = open("profile.txt", "w", encoding="utf-8")
+    profile = open("profile2.txt", "w", encoding="utf-8")
+
+    # retrieve_information(driver.page_source, profile)
 
     to_retrieve = [i for i in list(retrieval.keys()) if i not in omit]
     for element in to_retrieve:
-        driver.get(profile_url+f"details/{element}/")
-        time.sleep(3)
-        retrieve_information(element, profile)
+        if element != "main":   
+            driver.get(profile_url+f"details/{element}/")
+            time.sleep(3)
+        retrieve_information(element, driver.page_source, profile)
+        profile.write("\n")
     
     profile.close()
 
-def retrieve_information(key, file):
+def retrieve_information(key, page_source, file):
     driver = WebDriver.get_instance()
+
+    soup = bs(page_source, "html.parser")
 
     for expression in retrieval[key]:
         if expression != "":
-            elements = [i.text for i in driver.find_elements(By.XPATH, expression)]
-            for element in elements:
-                file.write(element + "\n")
-            file.write("\n")
+            file.write(str(soup.find_all(expression[0], **expression[1]))+"\n")
