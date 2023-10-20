@@ -1,6 +1,5 @@
 /.env
 selenium/
-*.html
 /__pycache__
-/html_profile
-test.py
+*.html
+*.txt
