@@ -1,23 +1,56 @@
-[[name]]
+{% for index in main.name %}
+# {{main.name[loop.index0]}}
+> {{main.description[loop.index0]}}
 
-[[description]]
+{{main.location[loop.index0]}}
+{% endfor %}
 
-[[location]]
+## Featured
+{% for index in featured.title %}
+### {{featured.title[loop.index0]}}
+{{featured.description[loop.index0]}}
+{%endfor%}
 
-[[about]]
+## Experience
+{% for index in experience.title %}
+### {{experience.title[loop.index0]}}
+> {{experience.company[loop.index0]}} - {{experience.date[loop.index0]}}
 
-[[featured]]
+{{experience.description[loop.index0]}}
+###### {{experience.skills[loop.index0]}}
+{%endfor%}
 
-[[experience]]
+## Education
+{% for index in education.title %}
+### {{education.title[loop.index0]}}
+> {{education.institution[loop.index0]}}
 
-[[education]]
+{{education.date[loop.index0]}}
+###### {{education.skills[loop.index0]}}
+{%endfor%}
 
-[[licenses]]
+## Certifications
+{% for index in certifications.title %}
+### {{certifications.title[loop.index0]}} - {{certifications.institution[loop.index0]}}
+> {{certifications.date[loop.index0]}}
+###### {{certifications.skills[loop.index0]}}
+{%endfor%}
 
-[[projects]]
+## Projects
+{% for index in projects.title %}
+### {{projects.title[loop.index0]}}
+> {{projects.date[loop.index0]}}
 
-[[skills]]
+{{projects.description[loop.index0]}}
+###### {{certifications.skills[loop.index0]}}
+{%endfor%}
 
-[[honors]]
+## Skills
+> [!NOTE]
+> Pending
 
-[[languages]]
+## Languages
+{% for index in languages.language %}
+- **{{languages.language[loop.index0]}}**
+  - {{languages.proficiency[loop.index0]}}
+{%endfor%}
