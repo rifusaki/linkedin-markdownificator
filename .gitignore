@@ -3,3 +3,5 @@ selenium/
 /__pycache__
 *.html
 *.txt
+testing.py
+data/extracted.md

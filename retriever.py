@@ -17,6 +17,7 @@ def login_to_profile(mail, password):
     # Finds the first '/in/' href which correspond to profiles
     # This should be the one of the logged account if a clean feed page was loaded
     driver.find_element(By.XPATH, "//a[contains(@href, '/in/')]").click()
+    time.sleep(5)
 
     return driver.current_url
 
@@ -37,11 +38,11 @@ retrieval = {"main": (("h1", {"class_" : "text-heading-xlarge inline t-24 v-alig
 
 def download_profile(profile_url, omit = []):
     driver = WebDriver.get_instance()
-    # profile = open("profile.txt", "w", encoding="utf-8")
 
     to_retrieve = [i for i in list(retrieval.keys()) if i not in omit]
     for element in to_retrieve:
-        element_file = open(f"{element}.txt", "w", encoding="utf-8")
+        os.makedirs(os.path.dirname(f"data/{element}.html"), exist_ok=True)
+        element_file = open(f"data/{element}.html", "w", encoding="utf-8")
         if element != "main":   
             driver.get(profile_url+f"details/{element}/")
             time.sleep(3)
