@@ -1,5 +1,5 @@
-from retriever import *
-from processer import markdownify
+from utils.retriever import *
+from utils.processer import markdownify
 
 # Do not forget to modify .env
 load_dotenv()

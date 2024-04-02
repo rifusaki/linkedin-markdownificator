@@ -1,5 +1,5 @@
-from lib import *
-from driver import *
+from utils.lib import *
+from utils.driver import *
 
 
 def login_to_profile(mail, password):

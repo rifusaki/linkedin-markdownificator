@@ -1,4 +1,4 @@
-from lib import *
+from utils.lib import *
 
 def start_WebDriver():
     # Make (or use) a '/selenium' folder user profile to preserve session cookies

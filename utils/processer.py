@@ -1,4 +1,4 @@
-from lib import *
+from utils.lib import *
 
 # This dictionary contains CSS selectors for the actual content
 to_extract = {"main": {"name": "body > h1",
@@ -54,6 +54,4 @@ def markdownify():
                 f.write(f"## {subitem[0]}\n{subitem[1]}\n")
             f.write("\n")
         f.close
-
-# extracted = markdownify()
 
