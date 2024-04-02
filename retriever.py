@@ -35,11 +35,9 @@ retrieval = {"main": (("h1", {"class_" : "text-heading-xlarge inline t-24 v-alig
              "languages": (("div", {"data-view-name" : "profile-component-entity"}),)}
 
 
-def markdownificate_profile(profile_url, omit = []):
+def download_profile(profile_url, omit = []):
     driver = WebDriver.get_instance()
-    profile = open("profile2.txt", "w", encoding="utf-8")
-
-    # retrieve_information(driver.page_source, profile)
+    profile = open("profile.txt", "w", encoding="utf-8")
 
     to_retrieve = [i for i in list(retrieval.keys()) if i not in omit]
     for element in to_retrieve:
@@ -52,10 +50,9 @@ def markdownificate_profile(profile_url, omit = []):
     profile.close()
 
 def retrieve_information(key, page_source, file):
-    driver = WebDriver.get_instance()
-
     soup = bs(page_source, "html.parser")
 
     for expression in retrieval[key]:
         if expression != "":
             file.write(str(soup.find_all(expression[0], **expression[1]))+"\n")
+
