@@ -64,5 +64,5 @@ def markdownify():
     # Render and write output
     output_text = template.render(extracted)  
 
-    with open("examples/example-default.md", "w", encoding="utf-8") as out:
+    with open("output.md", "w", encoding="utf-8") as out:
         out.write(output_text)
