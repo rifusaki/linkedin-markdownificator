@@ -37,17 +37,17 @@ retrieval = {"main": (("h1", {"class_" : "text-heading-xlarge inline t-24 v-alig
 
 def download_profile(profile_url, omit = []):
     driver = WebDriver.get_instance()
-    profile = open("profile.txt", "w", encoding="utf-8")
+    # profile = open("profile.txt", "w", encoding="utf-8")
 
     to_retrieve = [i for i in list(retrieval.keys()) if i not in omit]
     for element in to_retrieve:
+        element_file = open(f"{element}.txt", "w", encoding="utf-8")
         if element != "main":   
             driver.get(profile_url+f"details/{element}/")
             time.sleep(3)
-        retrieve_information(element, driver.page_source, profile)
-        profile.write("\n")
-    
-    profile.close()
+        retrieve_information(element, driver.page_source, element_file)
+        element_file.write("\n")
+        element_file.close()
 
 def retrieve_information(key, page_source, file):
     soup = bs(page_source, "html.parser")
