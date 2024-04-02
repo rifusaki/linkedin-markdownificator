@@ -1,5 +1,5 @@
 from retriever import *
-# from processer import markdownify
+from processer import markdownify
 
 # Do not forget to modify .env
 load_dotenv()
@@ -10,3 +10,4 @@ download_profile(profile_url, ["honors"])
 
 WebDriver.get_instance().quit()
 
+markdownify()

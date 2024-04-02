@@ -33,6 +33,7 @@ retrieval = {"main": (("h1", {"class_" : "text-heading-xlarge inline t-24 v-alig
              "projects": (("div", {"data-view-name" : "profile-component-entity"}),),
              "skills": (("div", {"data-view-name" : "profile-component-entity"}),), 
              "honors": ("",), # Pending
+             "courses": ("",), # Pending
              "languages": (("div", {"data-view-name" : "profile-component-entity"}),)}
 
 

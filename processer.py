@@ -1,9 +1,31 @@
 from lib import *
 
 # This dictionary contains CSS selectors for the actual content
-to_extract = {"projects": {"title" : 0,
-                          "content": "body > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components > ul > li > div > ul > li > div > div > div",
-                          "links": 0}}
+to_extract = {"main": {"name": "body > h1",
+                       "description": "body > div",
+                       "location": "body > span"},
+              "featured": {"title": "body > div > div.display-flex.flex-column.full-width > a.optional-action-target-wrapper.flex-1.display-flex.full-width.relative > div > div.flex-1.display-flex.flex-column > div > div.mb1 > div.display-flex > div > div > div",
+                           "description": "body > div > div.display-flex.flex-column.full-width > a.optional-action-target-wrapper.flex-1.display-flex.full-width.relative > div > div.flex-1.display-flex.flex-column > div > div.display-flex > div > div > div"},
+              "experience" : {"title" : "body > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > div.display-flex.flex-column.full-width > div > div > div > div",
+                              "company": "body > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > div.display-flex.flex-column.full-width > span:nth-child(2)",
+                              "date": "body > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > div.display-flex.flex-column.full-width > span:nth-child(3)",
+                              "description": "body > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components > ul > li:nth-child(1) > div > ul > li > div > div > div",
+                              "skills": "body > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components > ul > li:nth-child(2) > div > ul > li > div > div > div"},
+              "education" : {"institution" : "body > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > a > div > div > div > div",
+                             "title" : "body > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > a > span:nth-child(2)",
+                             "date" : "body > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > a > span.t-14.t-normal.t-black--light",
+                             "skills": "body > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components > ul > li:nth-child(1) > div > ul > li > div > div > div"},
+              "certifications": {"title": "body > div:nth-child(2) > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > a > div",
+                                 "institution": "body > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > a > span:nth-child(2)",
+                                 "date": "body > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > a > span:nth-child(3)",
+                                 "skills": "body > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components > ul > li:nth-child(2) > div > ul > li > div > div > div"},
+              "projects": {"title" : "body > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > div.display-flex.flex-column.full-width > div > div > div > div",
+                           "date" : "body > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > div.display-flex.flex-column.full-width > span",
+                           "description": "body > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components > ul > li:nth-child(2) > div > ul > li > div > div > div",
+                           "skills": "body > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components > ul > li:nth-child(3) > div > ul > li > div > div > div"},
+              "skills" : {"list": 0},
+              "languages": {"language": "body > div > div.display-flex.flex-column.full-width.align-self-center > div > div.display-flex.flex-column.full-width > div > div > div > div",
+                            "proficiency": "body > div > div.display-flex.flex-column.full-width.align-self-center > div > div.display-flex.flex-column.full-width > span"}}
 
 def repeated_string(s):
     half = len(s)//2
@@ -25,13 +47,13 @@ def markdownify():
                     res[index] = repeated_string(text)
                 extracted[key] |= {item[0]: res}
             
-    return extracted
+    with open("data/extracted.md", "w", encoding="utf-8") as f:
+        for item in extracted.items():
+            f.write(f"# {item[0]}\n")
+            for subitem in item[1].items():
+                f.write(f"## {subitem[0]}\n{subitem[1]}\n")
+            f.write("\n")
+        f.close
 
-extracted = markdownify()
+# extracted = markdownify()
 
-with open("data/extracted.md", "w", encoding="utf-8") as f:
-    for item in extracted.items():
-        f.write(f"# {item[0]}\n")
-        for subitem in item[1].items():
-            f.write(f"## {subitem[0]}\n{subitem[1]}")
-f.close
