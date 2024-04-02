@@ -46,12 +46,23 @@ def markdownify():
                     text = bs(res[index], features="lxml").get_text().strip()
                     res[index] = repeated_string(text)
                 extracted[key] |= {item[0]: res}
-            
-    with open("data/extracted.md", "w", encoding="utf-8") as f:
-        for item in extracted.items():
-            f.write(f"# {item[0]}\n")
-            for subitem in item[1].items():
-                f.write(f"## {subitem[0]}\n{subitem[1]}\n")
-            f.write("\n")
-        f.close
 
+    ## Save raw extracted data in a file        
+    # with open("data/extracted.md", "w", encoding="utf-8") as f:
+    #     for item in extracted.items():
+    #         f.write(f"# {item[0]}\n")
+    #         for subitem in item[1].items():
+    #             f.write(f"## {subitem[0]}\n{subitem[1]}\n")
+    #         f.write("\n")
+    #     f.close
+
+    # Load template
+    template_loader = ji.FileSystemLoader(searchpath="./templates")  # Assuming templates are in the same directory
+    template_env = ji.Environment(loader=template_loader)
+    template = template_env.get_template("default_template.md")
+
+    # Render and write output
+    output_text = template.render(extracted)  
+
+    with open("examples/example-default.md", "w", encoding="utf-8") as out:
+        out.write(output_text)

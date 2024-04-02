@@ -6,5 +6,6 @@ from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup as bs
 from parsel import Selector
 from pathlib import Path
+import jinja2 as ji
 import time
 import os
