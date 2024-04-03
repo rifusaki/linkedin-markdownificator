@@ -1,6 +1,6 @@
 
 # Martina García Mejía
-> Estudiante de física UNAL | Análisis en Python/C++/R | Fotógrafa | Género | Jugadora de ArcGIS | tukuriva
+> Estudiante de física UNAL • Análisis en Python/C++/R • Fotógrafa • Género • Jugadora de ArcGIS • tukuriva
 
 Bogotá, Distrito Capital, Colombia
 
