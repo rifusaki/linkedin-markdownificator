@@ -22,24 +22,14 @@ def login_to_profile(mail, password):
     return driver.current_url
 
 
-# The following dictionary contains the pages to be retrieved along with the XPATH expression to select relevant information
-retrieval = {"main": (("h1", {"class_" : "text-heading-xlarge inline t-24 v-align-middle break-words"}),
-                      ("div", {"class_" : "text-body-medium break-words"}),
-                      ("span", {"class_" : "text-body-small inline t-black--light break-words"})),
-             "featured" : (("div", {"class_" : "artdeco-card full-width overflow-hidden display-flex flex-column"}),), 
-             "experience": (("div", {"data-view-name" : "profile-component-entity"}),), 
-             "education": (("div", {"data-view-name" : "profile-component-entity"}),), 
-             "certifications": (("div", {"data-view-name" : "profile-component-entity"}),), 
-             "projects": (("div", {"data-view-name" : "profile-component-entity"}),),
-             "honors": ("",), # Pending
-             "courses": ("",), # Pending
-             "languages": (("div", {"data-view-name" : "profile-component-entity"}),)}
+# The following dictionary contains the pages to be retrieved.
+retrieval = ("main", "featured", "experience", "education", "certifications", "projects", "honors", "courses", "languages")
 
-
+# Omit argument excludes pages from previous tuple
 def download_profile(profile_url, omit = []):
     driver = WebDriver.get_instance()
 
-    to_retrieve = [i for i in list(retrieval.keys()) if i not in omit]
+    to_retrieve = [i for i in list(retrieval) if i not in omit]
     for element in to_retrieve:
         os.makedirs(os.path.dirname(f"data/{element}.html"), exist_ok=True)
         element_file = open(f"data/{element}.html", "w", encoding="utf-8")
