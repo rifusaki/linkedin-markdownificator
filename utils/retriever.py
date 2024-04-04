@@ -47,9 +47,11 @@ def download_profile(profile_url, omit = []):
         if element != "main":   
             driver.get(profile_url+f"details/{element}/")
             time.sleep(3)
-        retrieve_information(element, driver.page_source, element_file)
+        element_file.write(driver.page_source)
+        # retrieve_information(element, driver.page_source, element_file)
         element_file.write("\n")
         element_file.close()
+
 
 def retrieve_information(key, page_source, file):
     soup = bs(page_source, "html.parser")
@@ -58,3 +60,16 @@ def retrieve_information(key, page_source, file):
         if expression != "":
             file.write(str(soup.find_all(expression[0], **expression[1]))+"\n")
 
+
+
+
+# element = "certifications"
+# with open(f"sample-raw/{element}.html", "r", encoding="utf-8") as raw:
+#     os.makedirs(os.path.dirname(f"sample-data/{element}.html"), exist_ok=True)
+#     out = open(f"sample-data/{element}.html", "w", encoding="utf-8")
+    
+#     soup = bs(raw.read(), "html.parser")
+
+#     print(expression[0],"\n",expression[1])
+
+#     out.write(str(soup.find_all(expression[0], **expression[1]))+"\n")
