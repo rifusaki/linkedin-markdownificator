@@ -3,7 +3,7 @@ selenium/
 /__pycache__
 *.html
 *.txt
-testing.py
+testing/
 data/extracted.md
 *.pyc
 
