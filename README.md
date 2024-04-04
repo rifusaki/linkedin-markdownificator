@@ -2,11 +2,11 @@
 As the name suggests, you can use this tool to export your LinkedIn profile to Markdown. Using Pandoc or similar you can also export it to PDF.
 
 >[!IMPORTANT]
-> This tool is currently incomplete, albeit functional. Check my to-do at the end of this text.
+> Without access to the API, this was developed using a ```selenium``` webdriver and manually downloading the source HTML for each page. This means that it can easily break if LinkedIn changes its interface.
 
 See [my CV](https://github.com/rifusaki/linkedin-markdownificator/blob/main/examples/example-default.md) as example.
 
-## Usage
+## Basic usage
 - Clone the repo
 - Add your credentials to ```.env```
 - Run ```main.py```
@@ -16,12 +16,13 @@ See [my CV](https://github.com/rifusaki/linkedin-markdownificator/blob/main/exam
 Mostly because updating both my LinkedIn profile and a separate CV sounds redundant. Tools like the now deprecated [LinkedIn2Md](https://github.com/fkztw/linkedin2md) only used the public profile which is quite incomplete. I wanted the full data.
 
 #### Why not use the API?
-The whole registration process sounds way too convluted for what is a rather simple thing. Also, I wanted to play with web scraping. However, the current implementation is quite finicky, so I would eventually like to try the API.
+Pretty much because, as far as I know, I can't. In order to get access to the Member Data Portability API, I need to have a legally registered company (see [the documentation](https://learn.microsoft.com/en-us/linkedin/dma/member-data-portability/member-data-portability-3rd-party/)). Or, as the access request form kindly puts it:
+
+>  Please note that this product is only available for legal registered entities (e.g. LLC, Corporations, 501(c), etc.) and not individual developers.
+
+## Known issues
+- When projects are not associated with any experience or education, incorrect information is retrieved.
 
 ## To-Do
-- [ ] Fix education section XPATH retrieving unnecesary data
-- [ ] Fix about section not being retrieved
-- [ ] Add skills section
-- [ ] Add more templates
-  - [ ] ... something prettier
-- [ ] Look into more robust API implementation?
+- [ ] Add more, prettier templates
+- [ ] Write templating guide
