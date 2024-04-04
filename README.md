@@ -4,12 +4,27 @@ As the name suggests, you can use this tool to export your LinkedIn profile to M
 >[!IMPORTANT]
 > Without access to the API, this was developed using a ```selenium``` webdriver and manually downloading the source HTML for each page. This means that it can easily break if LinkedIn changes its interface.
 
-See my CV as example in [Markdown](https://github.com/rifusaki/linkedin-markdownificator/blob/main/examples/example-default.md) or [PDF](https://github.com/rifusaki/linkedin-markdownificator/blob/main/examples/example-default.pdf).
+See my CV as example in [Markdown](https://github.com/rifusaki/linkedin-markdownificator/blob/main/examples/example-default.md) or .
 
 ## Basic usage
 - Clone the repo
 - Add your credentials to ```.env```
 - Run ```main.py```
+
+### Templates
+There are currently two templates: ```default_template.md``` and ```peppermint.md```. In order to switch between them go to ```markdownify()``` in [```processer.py```](https://github.com/rifusaki/linkedin-markdownificator/blob/main/utils/processer.py). These are some examples:
+
+#### ```peppermint```
+This template was designed with the usage of Jekyll in mind. I use [```minimal-mistakes```](https://github.com/mmistakes/minimal-mistakes) for the live version (which can also be saved to PDF):
+- [Live](https://rifusaki.co/CV/)
+
+And this is the result using only a basic PDF exporter:
+- [Markdown](https://github.com/rifusaki/linkedin-markdownificator/blob/main/examples/example-peppermint.md)
+- [PDF](https://github.com/rifusaki/linkedin-markdownificator/blob/main/examples/example-peppermint.pdf)
+
+#### ```default_template```
+- [Markdown](https://github.com/rifusaki/linkedin-markdownificator/blob/main/examples/example-default.md)
+- [PDF](https://github.com/rifusaki/linkedin-markdownificator/blob/main/examples/example-default.pdf)
 
 ## FAQ
 #### Just... why?

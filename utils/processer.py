@@ -57,7 +57,7 @@ def markdownify():
     # Environment([globals={'zip': zip}])
     template_loader = FileSystemLoader(searchpath="./templates")  # Assuming templates are in the same directory
     template_env = Environment(loader=template_loader)
-    template = template_env.get_template("default_template.md")
+    template = template_env.get_template("peppermint.md") # Define template
 
     # Render and write output
     output_text = template.render(extracted, zip=zip, len=len)  
