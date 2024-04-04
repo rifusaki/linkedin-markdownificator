@@ -1,10 +1,10 @@
 # ```linkedin-markdownificator```
-As the name suggests, you can use this tool to export your LinkedIn profile to Markdown. Using Pandoc or similar you can also export it to PDF.
+As the name suggests, you can use this tool to export your LinkedIn profile to Markdown. From there you can export it to PDF however you like.
 
 >[!IMPORTANT]
 > Without access to the API, this was developed using a ```selenium``` webdriver and manually downloading the source HTML for each page. This means that it can easily break if LinkedIn changes its interface.
 
-See [my CV](https://github.com/rifusaki/linkedin-markdownificator/blob/main/examples/example-default.md) as example.
+See my CV as example in [Markdown](https://github.com/rifusaki/linkedin-markdownificator/blob/main/examples/example-default.md) or [PDF](https://github.com/rifusaki/linkedin-markdownificator/blob/main/examples/example-default.pdf).
 
 ## Basic usage
 - Clone the repo
