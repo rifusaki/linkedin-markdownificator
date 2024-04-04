@@ -2,11 +2,11 @@
 As the name suggests, you can use this tool to export your LinkedIn profile to Markdown. Using Pandoc or similar you can also export it to PDF.
 
 >[!IMPORTANT]
-> This tool is currently incomplete, albeit functional. Check my to-do at the end of this text.
+> Without access to the API, this was developed using a ```selenium``` webdriver and manually downloading the source HTML for each page. This means that it can easily break if LinkedIn changes its interface.
 
 See [my CV](https://github.com/rifusaki/linkedin-markdownificator/blob/main/examples/example-default.md) as example.
 
-## Usage
+## Basic usage
 - Clone the repo
 - Add your credentials to ```.env```
 - Run ```main.py```
@@ -20,10 +20,9 @@ Pretty much because, as far as I know, I can't. In order to get access to the Me
 
 >  Please note that this product is only available for legal registered entities (e.g. LLC, Corporations, 501(c), etc.) and not individual developers.
 
+## Known issues
+- When projects are not associated with any experience or education, incorrect information is retrieved.
+
 ## To-Do
-- [ ] Fix education section XPATH retrieving unnecesary data
-- [ ] Fix about section not being retrieved
-- [ ] Add skills section
-- [ ] Add more templates
-  - [ ] ... something prettier
-- [X] Look into more robust API implementation?
+- [ ] Add more, prettier templates
+- [ ] Write templating guide
