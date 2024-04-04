@@ -5,6 +5,7 @@ selenium/
 *.txt
 data/extracted.md
 *.pyc
+testing/
 
 # and the great collection of gitignore
 # Byte-compiled / optimized / DLL files
