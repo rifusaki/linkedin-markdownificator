@@ -37,7 +37,3 @@ Pretty much because, as far as I know, I can't. In order to get access to the Me
 
 ## Known issues
 - When projects are not associated with any experience or education, incorrect information is retrieved.
-
-## To-Do
-- [ ] Add more, prettier templates
-- [ ] Write templating guide
