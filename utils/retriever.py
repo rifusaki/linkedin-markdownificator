@@ -5,7 +5,7 @@ from utils.driver import *
 def login_to_profile(mail, password):
     driver = WebDriver.get_instance()
     driver.get("https://linkedin.com/")
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(15)
 
     # LinkedIn when logged in redirects to feed. If not logged, login elements should be available in main page
     if "feed" not in driver.title.lower():
