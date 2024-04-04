@@ -1,14 +1,7 @@
-{% for name, summary, description, skills in zip(main.name, main.summary, main.description, main.main_skills) %}
+{% for name, description, skills in zip(main.name, main.description, main.main_skills) %}
 # {{ name[0] }} 
-{% if summary %} 
-    > {{ summary[0] }}
-{% endif %}
-{% if description %}
 {{ description[0] }}
-{% endif %}
-{% if skills %}
-###### {{ skills[0] }}
-{% endif %}
+###### Main skills: {{skills[0]}}
 {% endfor %}
 
 ## Featured
@@ -50,12 +43,12 @@
 {% endfor %}
 
 ## Projects
-{% for basic, description in zip(projects.basic, projects.description) %}
+{% for basic, description, skills in zip(projects.basic, projects.description, projects.skills) %}
 ### {{basic[0]}}
-> {{basic[1]}} - {{description[0]}}
+> {{basic[1]}}
 
-{{description[1]}}
-###### {{description[-1]}}
+{{description[0]}}
+###### {{skills[0]}}
 {%endfor%}
 
 ## Courses
