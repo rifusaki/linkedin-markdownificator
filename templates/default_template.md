@@ -1,56 +1,71 @@
-{% for index in main.name %}
-# {{main.name[loop.index0]}}
-> {{main.description[loop.index0]}}
-
-{{main.location[loop.index0]}}
+{% for name, summary, description, skills in zip(main.name, main.summary, main.description, main.main_skills) %}
+# {{ name[0] }} 
+{% if summary %} 
+    > {{ summary[0] }}
+{% endif %}
+{% if description %}
+{{ description[0] }}
+{% endif %}
+{% if skills %}
+###### {{ skills[0] }}
+{% endif %}
 {% endfor %}
 
 ## Featured
-{% for index in featured.title %}
-### {{featured.title[loop.index0]}}
-{{featured.description[loop.index0]}}
-{%endfor%}
+{% for title, description in zip(featured.title, featured.description) %}
+### {{title[0]}}
+{{description[0]}}
+{% endfor %}
 
 ## Experience
-{% for index in experience.title %}
-### {{experience.title[loop.index0]}}
-> {{experience.company[loop.index0]}} - {{experience.date[loop.index0]}}
+{% for basic, description in zip(experience.basic, experience.description) %}
+### {{basic[0]}} - {{basic[1]}}
+> {{basic[2]}}
 
-{{experience.description[loop.index0]}}
-###### {{experience.skills[loop.index0]}}
-{%endfor%}
+{{description[0]}}
+
+###### {{description[1]}}
+{% endfor %}
 
 ## Education
-{% for index in education.title %}
-### {{education.title[loop.index0]}}
-> {{education.institution[loop.index0]}}
+{% for basic, description in zip(education.basic, education.description) %}
+### {{basic[1]}}
+> {{basic[0]}} - {{basic[2]}}
 
-{{education.date[loop.index0]}}
-###### {{education.skills[loop.index0]}}
-{%endfor%}
+{% if len(description) > 1%}
+{{description[0]}}
+{% if len(description) > 2 %}
+{{description[1]}}
+{% endif %}
+{% endif %}
+###### {{description[-1]}}
+{% endfor %}
 
 ## Certifications
-{% for index in certifications.title %}
-### {{certifications.title[loop.index0]}} - {{certifications.institution[loop.index0]}}
-> {{certifications.date[loop.index0]}}
-###### {{certifications.skills[loop.index0]}}
-{%endfor%}
+{% for basic, description in zip(certifications.basic, certifications.description) %}
+### {{basic[0]}}
+> {{basic[1]}} - {{basic[2]}}
+
+{{description[0]}}
+{% endfor %}
 
 ## Projects
-{% for index in projects.title %}
-### {{projects.title[loop.index0]}}
-> {{projects.date[loop.index0]}}
+{% for basic, description in zip(projects.basic, projects.description) %}
+### {{basic[0]}}
+> {{basic[1]}} - {{description[0]}}
 
-{{projects.description[loop.index0]}}
-###### {{certifications.skills[loop.index0]}}
+{{description[1]}}
+###### {{description[-1]}}
 {%endfor%}
 
-## Skills
-> [!NOTE]
-> Pending
+## Courses
+{% for name, associated in zip(courses.name, courses.associated) %}
+### {{name[0]}}
+> {{associated[0]}}
+{% endfor %}
 
 ## Languages
-{% for index in languages.language %}
-- **{{languages.language[loop.index0]}}**
-  - {{languages.proficiency[loop.index0]}}
-{%endfor%}
+{% for language in languages.languages %}
+- **{{language[0]}}**
+  - {{language[1]}}
+{% endfor %}

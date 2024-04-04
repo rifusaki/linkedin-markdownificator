@@ -18,7 +18,7 @@ to_extract = {
               "education" : {"basic" : "div > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between",
                              "description": "div > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components"},
               "certifications": {"basic": "div > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between",
-                                 "skills": "div > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components > ul > li > div > ul"},
+                                 "description": "div > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components > ul > li > div > ul"},
               "courses": {"name": "div > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > div.display-flex.flex-column.full-width > div",
                           "associated": "div > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components > ul > li > div > div > div.display-flex"},
               "projects": {"basic" : "div > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > div.display-flex.flex-column.full-width",
@@ -45,21 +45,22 @@ def markdownify():
                 extracted[key] |= {item[0]: res}
 
     # Save raw extracted data in a file        
-    with open("data/extracted.md", "w", encoding="utf-8") as f:
-        for item in extracted.items():
-            f.write(f"# {item[0]}\n")
-            for subitem in item[1].items():
-                f.write(f"## {subitem[0]}\n{subitem[1]}\n")
-            f.write("\n")
-        f.close
+    # with open("data/extracted.md", "w", encoding="utf-8") as f:
+    #     for item in extracted.items():
+    #         f.write(f"# {item[0]}\n")
+    #         for subitem in item[1].items():
+    #             f.write(f"## {subitem[0]}\n{subitem[1]}\n")
+    #         f.write("\n")
+    #     f.close
 
-    # # Load template
-    # template_loader = ji.FileSystemLoader(searchpath="./templates")  # Assuming templates are in the same directory
-    # template_env = ji.Environment(loader=template_loader)
-    # template = template_env.get_template("default_template.md")
+    # Load template
+    # Environment([globals={'zip': zip}])
+    template_loader = FileSystemLoader(searchpath="./templates")  # Assuming templates are in the same directory
+    template_env = Environment(loader=template_loader)
+    template = template_env.get_template("default_template.md")
 
-    # # Render and write output
-    # output_text = template.render(extracted)  
+    # Render and write output
+    output_text = template.render(extracted, zip=zip, len=len)  
 
-    # with open("output.md", "w", encoding="utf-8") as out:
-    #     out.write(output_text)
+    with open("output.md", "w", encoding="utf-8") as out:
+        out.write(output_text)
