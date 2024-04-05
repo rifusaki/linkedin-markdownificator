@@ -4,8 +4,6 @@ As the name suggests, you can use this tool to export your LinkedIn profile to M
 >[!IMPORTANT]
 > Without access to the API, this was developed using a ```selenium``` webdriver and manually downloading the source HTML for each page. This means that it can easily break if LinkedIn changes its interface.
 
-See my CV as example in [Markdown](https://github.com/rifusaki/linkedin-markdownificator/blob/main/examples/example-default.md) or .
-
 ## Basic usage
 - Clone the repo
 - Add your credentials to ```.env```
