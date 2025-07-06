@@ -4,14 +4,16 @@ from utils.driver import *
 
 def login_to_profile(mail, password):
     driver = WebDriver.get_instance()
-    driver.get("https://linkedin.com/")
+    driver.get("https://linkedin.com/login")
     driver.implicitly_wait(15)
 
     # LinkedIn when logged in redirects to feed. If not logged, login elements should be available in main page
     if "feed" not in driver.title.lower():
         print("login required")
-        driver.find_element(by=By.ID, value="session_key").send_keys(mail)
-        driver.find_element(by=By.ID, value="session_password").send_keys(password, Keys.ENTER)
+        #driver.find_element(by=By.ID, value="session_key").send_keys(mail)
+        driver.find_element(by=By.ID, value="username").send_keys(mail)
+        #driver.find_element(by=By.ID, value="session_password").send_keys(password, Keys.ENTER)
+        driver.find_element(by=By.ID, value="password").send_keys(password, Keys.ENTER)
         driver.implicitly_wait(30) # Increase time if needed for captcha
 
     # Finds the first '/in/' href which correspond to profiles
