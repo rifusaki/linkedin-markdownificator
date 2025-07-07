@@ -7,24 +7,26 @@ def repeated_string(s):
 
 # This dictionary contains CSS selectors for the actual content
 to_extract = {
-                "main": {"name": "h1",
-                       "description": "div > div.scaffold-layout.scaffold-layout--breakpoint-xl.scaffold-layout--main-aside.scaffold-layout--reflow.pv-profile.pvs-loader-wrapper__shimmer--animate > div > div > main > section:nth-child(4) > div.display-flex.ph5.pv3 > div",
-                       "main_skills": "div > div.scaffold-layout.scaffold-layout--breakpoint-xl.scaffold-layout--main-aside.scaffold-layout--reflow.pv-profile.pvs-loader-wrapper__shimmer--animate > div > div > main > section:nth-child(4) > div:nth-child(4) > div > ul > li > div > div > div.display-flex.flex-column.full-width.align-self-center > div > div.display-flex.flex-column.full-width > div:nth-child(2)"},
-              "featured": {"title": "div > div > div.display-flex.flex-column.full-width > a.optional-action-target-wrapper.flex-1.display-flex.full-width.relative > div > div.flex-1.display-flex.flex-column > div > div.mb1 > div.display-flex",
-                           "description": "div > div > div.display-flex.flex-column.full-width > a.optional-action-target-wrapper.flex-1.display-flex.full-width.relative > div > div.flex-1.display-flex.flex-column > div > div.display-flex"},
-              "experience" : {"basic" : "div > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between",
-                              "description": "div > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components"},
-              "education" : {"basic" : "div > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between",
-                             "description": "div > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components"},
-              "certifications": {"basic": "div > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between",
-                                 "description": "div > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components > ul > li > div > ul"},
-              "courses": {"name": "div > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > div.display-flex.flex-column.full-width > div",
-                          "associated": "div > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components > ul > li > div > div > div.display-flex"},
-              "projects": {"basic" : "div > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > div.display-flex.flex-column.full-width",
-                           "description": "div > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components > ul > li:nth-child(2)",
-                           "skills": "div > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components > ul > li:nth-child(3)"},
-              "languages": {"languages": "div > div > div.display-flex.flex-column.full-width.align-self-center > div > div.display-flex.flex-column.full-width"}
-                            }
+              "main":           {"name":        "h1",
+                                 "description": "div > div.scaffold-layout.scaffold-layout--breakpoint-xl.scaffold-layout--main-aside.scaffold-layout--reflow.pv-profile.pvs-loader-wrapper__shimmer--animate > div > div > main > section > div.ph5 > div.mt2.relative > div:nth-child(1) > div.text-body-medium.break-words",
+                                 "main_skills": "div > div.scaffold-layout.scaffold-layout--breakpoint-xl.scaffold-layout--main-aside.scaffold-layout--reflow.pv-profile.pvs-loader-wrapper__shimmer--animate > div > div > main > section:nth-child(4) > div:nth-child(4) > div > ul > li > div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div > div > div:nth-child(2)"},
+              "featured":       {"title":       "div > div > div.display-flex.flex-column.full-width > a.optional-action-target-wrapper.flex-1.display-flex.full-width.relative > div > div.flex-1.display-flex.flex-column > div > div.mb1 > div.display-flex",
+                                 "description": "div > div > div.display-flex.flex-column.full-width > a.optional-action-target-wrapper.flex-1.display-flex.full-width.relative > div > div.flex-1.display-flex.flex-column > div > div.display-flex"},
+              "experience":     {"basic" :      "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div.display-flex.flex-row.justify-space-between",
+                                 "description": "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div > ul > li:nth-child(1) > div > ul > li > div"},
+              "education":      {"basic" :      "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div.display-flex.flex-row.justify-space-between > a",
+                                 "description": "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div.display-flex.flex-row.justify-space-between > a"},
+              "certifications": {"basic":       "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div.display-flex.flex-row.justify-space-between > div > div > div > div > div > span:nth-child(1)",
+                                 "dates":       "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div.display-flex.flex-row.justify-space-between > div > span.t-14.t-normal.t-black--light > span.pvs-entity__caption-wrapper",
+                                 "description": "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div.display-flex.flex-row.justify-space-between > div > span:nth-child(2) > span:nth-child(1)"},
+              "projects":       {"basic" :      "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div.display-flex.flex-row.justify-space-between > div > div > div > div",
+                                 "description": "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div > ul > li:nth-child(1)",
+                                 "skills":      "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div > ul > li:nth-child(2)"},
+              "courses":        {"name":        "div > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > div.display-flex.flex-column.full-width > div",
+                                 "associated":  "div > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components > ul > li > div > div > div.display-flex"},
+              "languages":      {"languages":   "div > div > div.display-flex.flex-column.full-width.align-self-center > div > div.display-flex.flex-column.full-width"}
+}
+
 
 
 def markdownify():
@@ -57,7 +59,7 @@ def markdownify():
     # Environment([globals={'zip': zip}])
     template_loader = FileSystemLoader(searchpath="./templates")  # Assuming templates are in the same directory
     template_env = Environment(loader=template_loader)
-    template = template_env.get_template("peppermint.md") # Define template
+    template = template_env.get_template("peppermint_twist.md") # Define template
 
     # Render and write output
     output_text = template.render(extracted, zip=zip, len=len)  
