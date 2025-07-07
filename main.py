@@ -1,14 +1,17 @@
 from utils.retriever import *
 from utils.processer import markdownify
 
-if not os.path.isfile('./data/languages.html'):
-  # Do not forget to modify .env
-  load_dotenv()
+# uncomment and indent before markdownify() to skip scraping and process local files.
+#if not os.path.isfile('./data/languages.html'):
+# TODO add a flag with prompt to skip or overwrite if files already exist.
 
-  profile_url = login_to_profile(os.getenv("MAIL"), os.getenv("PASSWORD"))
+# Do not forget to modify .env
+load_dotenv()
 
-  download_profile(profile_url, ["honors",])
+profile_url = login_to_profile(os.getenv("MAIL"), os.getenv("PASSWORD"))
 
-  WebDriver.get_instance().quit()
+download_profile(profile_url, ["honors",]) # omit (do not download) details/honors/ ; not included in templates.
+
+WebDriver.get_instance().quit()
 
 markdownify()
