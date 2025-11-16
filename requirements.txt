@@ -1,7 +1,0 @@
-python-dotenv
-selenium
-webdriver-manager
-bs4
-parsel
-pathlib
-jinja2

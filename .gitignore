@@ -5,7 +5,6 @@ selenium/
 /__pycache__
 *.html
 *.txt
-!requirements.txt
 data/extracted.md
 *.pyc
 testing/
@@ -69,4 +68,3 @@ docs/_build/
 
 # PyBuilder
 target/
-.DS_Store
