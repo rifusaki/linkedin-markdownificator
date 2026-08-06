@@ -1,10 +1,8 @@
 from utils.lib import *
 
 def start_WebDriver():
-    # Make (or use) a '/selenium' folder user profile to preserve session cookies
-    # It's also possible to manage extensions, settings... per user basis
     options = Options()
-    options.add_argument(f"user-data-dir={Path().absolute()}\\selenium")
+    options.add_argument(f"user-data-dir={Path().absolute()}/selenium")
     options.add_argument("--window-size=1920,1080")
     return webdriver.Chrome(options=options)
 
