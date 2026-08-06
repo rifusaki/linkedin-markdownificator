@@ -1,0 +1,23 @@
+[project]
+name = "linkedin-markdownificator"
+version = "0.1.0"
+description = "Export your LinkedIn profile to a Markdown CV"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = [
+    "python-dotenv",
+    "selenium",
+    "bs4",
+    "lxml",
+    "parsel",
+    "jinja2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

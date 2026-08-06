@@ -1,68 +1,149 @@
 from utils.lib import *
 
+
 def repeated_string(s):
     half = len(s)//2
     return s[:half] if s[half:] == s[:half] else s
 
 
-# This dictionary contains CSS selectors for the actual content
+# XPath selectors for each profile section
+# All detail pages share the same DOM structure inside main#workspace:
+#   <main#workspace> > section > ... > div > div > div[, empty, section-title, item, item, ...]
+# We select item-container divs — their get_text(separator="\n") yields line-separated fields.
+
 to_extract = {
-              "main":           {"name":        "h1",
-                                 "description": "div > div.scaffold-layout.scaffold-layout--breakpoint-xl.scaffold-layout--main-aside.scaffold-layout--reflow.pv-profile.pvs-loader-wrapper__shimmer--animate > div > div > main > section > div.ph5 > div.mt2.relative > div:nth-child(1) > div.text-body-medium.break-words",
-                                 "main_skills": "div > div.scaffold-layout.scaffold-layout--breakpoint-xl.scaffold-layout--main-aside.scaffold-layout--reflow.pv-profile.pvs-loader-wrapper__shimmer--animate > div > div > main > section:nth-child(4) > div:nth-child(4) > div > ul > li > div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div > div > div:nth-child(2)"},
-              "featured":       {"title":       "div > div > div.display-flex.flex-column.full-width > a.optional-action-target-wrapper.flex-1.display-flex.full-width.relative > div > div.flex-1.display-flex.flex-column > div > div.mb1 > div.display-flex",
-                                 "description": "div > div > div.display-flex.flex-column.full-width > a.optional-action-target-wrapper.flex-1.display-flex.full-width.relative > div > div.flex-1.display-flex.flex-column > div > div.display-flex"},
-              "experience":     {"basic" :      "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div.display-flex.flex-row.justify-space-between",
-                                 "description": "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div > ul > li:nth-child(1) > div > ul > li > div"},
-              "education":      {"basic" :      "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div.display-flex.flex-row.justify-space-between > a",
-                                 "description": "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div.display-flex.flex-row.justify-space-between > a"},
-              "certifications": {"basic":       "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div.display-flex.flex-row.justify-space-between > div > div > div > div > div > span:nth-child(1)",
-                                 "dates":       "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div.display-flex.flex-row.justify-space-between > div > span.t-14.t-normal.t-black--light > span.pvs-entity__caption-wrapper",
-                                 "description": "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div.display-flex.flex-row.justify-space-between > div > span:nth-child(2) > span:nth-child(1)"},
-              "projects":       {"basic" :      "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div.display-flex.flex-row.justify-space-between > div > div > div > div",
-                                 "description": "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div > ul > li:nth-child(1)",
-                                 "skills":      "div > div > div.display-flex.flex-column.align-self-center.flex-grow-1 > div > ul > li:nth-child(2)"},
-              "courses":        {"name":        "div > div > div.display-flex.flex-column.full-width.align-self-center > div.display-flex.flex-row.justify-space-between > div.display-flex.flex-column.full-width > div",
-                                 "associated":  "div > div > div.display-flex.flex-column.full-width.align-self-center > div.pvs-list__outer-container.pvs-entity__sub-components > ul > li > div > div > div.display-flex"},
-              "languages":      {"languages":   "div > div > div.display-flex.flex-column.full-width.align-self-center > div > div.display-flex.flex-column.full-width"}
+    "main": {
+        "name":        "//title",
+        "description": "//h2[contains(text(), 'Acerca de') or contains(text(), 'About') or contains(text(), 'À propos')]/../following-sibling::div",
+        "main_skills": "//h2[contains(text(), 'Aptitudes') or contains(text(), 'Skills') or contains(text(), 'Compétences')]/../following-sibling::div[1]",
+    },
+    "featured":    {"container": "//main[@id='workspace']//section//div[div[normalize-space()='Destacado' or normalize-space()='Featured']]/div[position()>2]"},
+    "experience":  {"container": "//main[@id='workspace']//section//div[div[normalize-space()='Experiencia' or normalize-space()='Experience']]/div[position()>2]"},
+    "education":   {"container": "//main[@id='workspace']//section//div[div[normalize-space()='Educación' or normalize-space()='Education']]/div[position()>2]"},
+    "certifications": {"container": "//main[@id='workspace']//section//div[div[contains(normalize-space(), 'Licencias') or contains(normalize-space(), 'Licenses') or contains(normalize-space(), 'Certifications')]]/div[position()>2]"},
+    "projects":    {"container": "//main[@id='workspace']//section//div[div[normalize-space()='Proyectos' or normalize-space()='Projects']]/div[position()>2]"},
+    "courses":     {"container": "//main[@id='workspace']//section//div[div[normalize-space()='Cursos' or normalize-space()='Courses']]/div[position()>2]"},
+    "languages":   {"container": "//main[@id='workspace']//section//div[div[normalize-space()='Idiomas' or normalize-space()='Languages']]/div[position()>2]"},
 }
 
+# Field counts for detail page items (lines produced by get_text(separator="\n"))
+DETAIL_LAYOUT = {
+    "featured":       {"title": 0, "description": 1},
+    "experience":     {"basic": [0, 1, 2], "description": slice(3, None)},
+    "education":      {"basic": [0, 1, 2], "description": slice(3, None)},
+    "certifications": {"basic": [0, 1], "dates": [], "description": [1]},
+    "projects":       {"basic": [0, 1], "description": [], "skills": []},
+    "courses":        {"name": 0, "associated": 1},
+    "languages":      {"languages": slice(None)},
+}
+
+
+def _extract_main(selector):
+    """Extract main page data: name from <title>, description/skills from sections."""
+    result = {}
+    for key, xpath in to_extract["main"].items():
+        elements = selector.xpath(xpath)
+        if not elements:
+            result[key] = []
+            continue
+        if key == "name":
+            text = bs(elements[0].get(), features="lxml").get_text().strip()
+            text = text.replace(" | LinkedIn", "").strip()
+            result[key] = [[text]]
+        else:
+            texts = []
+            for el in elements:
+                raw = bs(el.get(), features="lxml").get_text().strip()
+                lines = [repeated_string(l) for l in raw.split("\n") if l.strip()]
+                heading_terms = ("Acerca de", "About", "À propos", "Aptitudes", "Skills",
+                                 "Compétences", "Aptitudes (58)", "Skills (58)")
+                content_lines = [l for l in lines if l not in heading_terms]
+                if content_lines:
+                    texts.append(content_lines)
+            result[key] = texts if texts else [[]]
+    return result
+
+
+def _extract_detail(selector, section):
+    """Extract detail page data from item container divs."""
+    xpath = to_extract[section]["container"]
+    elements = selector.xpath(xpath)
+    if not elements:
+        return {k: [] for k in DETAIL_LAYOUT[section]}
+
+    # Extract text from each item with newline separator, skip empty items
+    items = []
+    for el in elements:
+        text = bs(el.get(), features="lxml").get_text(separator="\n").strip()
+        if not text:
+            continue
+        lines = [repeated_string(l.strip()) for l in text.split("\n") if l.strip()]
+        if lines:
+            items.append(lines)
+
+    layout = DETAIL_LAYOUT[section]
+    result = {}
+
+    if section == "languages":
+        result["languages"] = items
+        return result
+
+    if section in ("courses", "featured"):
+        keys = list(layout.keys())
+        idx0 = layout[keys[0]]
+        idx1 = layout[keys[1]]
+        result[keys[0]] = [[item[idx0]] if idx0 < len(item) else [""] for item in items]
+        result[keys[1]] = [[item[idx1]] if idx1 < len(item) else [""] for item in items]
+        return result
+
+    # experience, education, certifications, projects
+    for key, spec in layout.items():
+        if not spec:
+            result[key] = [[""] for _ in items]
+        elif isinstance(spec, slice):
+            # Description: join remaining fields
+            desc_parts = []
+            for item in items:
+                desc_parts.append(item[spec])
+            result[key] = desc_parts
+        elif isinstance(spec, list):
+            # basic: specific fields
+            combined = []
+            for item in items:
+                combined.append([item[i] if i < len(item) else "" for i in spec])
+            result[key] = combined
+        else:
+            result[key] = [[item[spec]] if spec < len(item) else [""] for item in items]
+
+    # Ensure zipped lists have same length
+    lengths = {k: len(v) for k, v in result.items()}
+    if len(set(lengths.values())) > 1:
+        max_len = max(lengths.values())
+        for k, v in result.items():
+            while len(v) < max_len:
+                v.append(v[-1] if v else [""])
+
+    return result
 
 
 def markdownify():
     extracted = {}
-    for key in list(to_extract.keys()):
+    for key in to_extract:
         extracted[key] = {}
         with open(f"data/{key}.html", encoding="utf-8") as html_content:
             selector = Selector(html_content.read())
         html_content.close()
 
-        for item in to_extract[key].items():
-            if type(item[1]) == str:
-                res = selector.css(item[1]).getall()
-                for index in range(len(res)):
-                    text = bs(res[index], features="lxml").get_text().strip()
-                    res[index] = text.split('\n')
-                    res[index] = [repeated_string(item) for item in res[index] if item.strip()]
-                extracted[key] |= {item[0]: res}
+        if key == "main":
+            extracted[key] = _extract_main(selector)
+        else:
+            extracted[key] = _extract_detail(selector, key)
 
-    # Save raw extracted data in a file        
-    # with open("data/extracted.md", "w", encoding="utf-8") as f:
-    #     for item in extracted.items():
-    #         f.write(f"# {item[0]}\n")
-    #         for subitem in item[1].items():
-    #             f.write(f"## {subitem[0]}\n{subitem[1]}\n")
-    #         f.write("\n")
-    #     f.close
-
-    # Load template
-    # Environment([globals={'zip': zip}])
-    template_loader = FileSystemLoader(searchpath="./templates")  # Assuming templates are in the same directory
+    template_loader = FileSystemLoader(searchpath="./templates")
     template_env = Environment(loader=template_loader)
-    template = template_env.get_template("peppermint.md") # Define template
+    template = template_env.get_template("peppermint.md")
 
-    # Render and write output
-    output_text = template.render(extracted, zip=zip, len=len)  
+    output_text = template.render(extracted, zip=zip, len=len)
 
     with open("output.md", "w", encoding="utf-8") as out:
         out.write(output_text)

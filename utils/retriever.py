@@ -7,17 +7,27 @@ def login_to_profile(mail, password):
     driver.get("https://linkedin.com/login")
     driver.implicitly_wait(15)
 
-    # LinkedIn when logged in redirects to feed. If not logged, login elements should be available in main page
     if "feed" not in driver.title.lower():
         print("login required")
-        #driver.find_element(by=By.ID, value="session_key").send_keys(mail)
-        driver.find_element(by=By.ID, value="username").send_keys(mail)
-        #driver.find_element(by=By.ID, value="session_password").send_keys(password, Keys.ENTER)
-        driver.find_element(by=By.ID, value="password").send_keys(password, Keys.ENTER)
-        driver.implicitly_wait(30) # Increase time if needed for captcha
+        for el in driver.find_elements(By.CSS_SELECTOR, 'input[autocomplete="username"]'):
+            if el.is_displayed():
+                el.send_keys(mail)
+                break
+        for el in driver.find_elements(By.CSS_SELECTOR, 'input[autocomplete="current-password"]'):
+            if el.is_displayed():
+                el.send_keys(password, Keys.ENTER)
+                break
+        print("Post-login: waiting up to 60s for CAPTCHA/2FA verification...")
+        print("  (solve any challenge in the browser window)")
+        for remaining in range(60, 0, -5):
+            time.sleep(5)
+            if "feed" in driver.title.lower():
+                print("Feed loaded.")
+                break
+            print(f"  still waiting... ({remaining}s)")
+        print(f"  Final URL: {driver.current_url}")
 
-    # Finds the first '/in/' href which correspond to profiles
-    # This should be the one of the logged account if a clean feed page was loaded
+    print("Navigating to profile...")
     driver.find_element(By.XPATH, "//a[contains(@href, '/in/')]").click()
     time.sleep(5)
 

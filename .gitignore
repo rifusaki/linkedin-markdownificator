@@ -1,11 +1,11 @@
 output.md
 
-/.env
+.env
 selenium/
 /__pycache__
 *.html
+!tests/fixtures/*.html
 *.txt
-!requirements.txt
 data/extracted.md
 *.pyc
 testing/
